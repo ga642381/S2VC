@@ -6,8 +6,6 @@ import torch
 from torch.optim import Optimizer
 from torch.optim.lr_scheduler import LambdaLR
 
-from fairseq.models.wav2vec import Wav2Vec2Model
-
 
 def load_pretrained_wav2vec(ckpt_path):
     """Load pretrained Wav2Vec model."""
