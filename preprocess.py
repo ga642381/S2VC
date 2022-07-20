@@ -1,28 +1,27 @@
 #!/usr/bin/env python3
 """Precompute Wav2Vec features."""
 
-import os
 import json
-from pathlib import Path
-from tempfile import mkstemp
-from multiprocessing import cpu_count
-
-import tqdm
-import torch
-from torch.utils.data import DataLoader
+import os
 from argparse import ArgumentParser
 from copy import deepcopy
+from multiprocessing import cpu_count
+from pathlib import Path
+from tempfile import mkstemp
 
-from models import load_pretrained_wav2vec
+import torch
+import tqdm
+from torch.utils.data import DataLoader
+
 from data import PreprocessDataset
 from data.feature_extract import FeatureExtractor
+
 
 def parse_args():
     """Parse command-line arguments."""
     parser = ArgumentParser()
     parser.add_argument("data_dirs", type=str, nargs="+")
     parser.add_argument("feature_name", type=str)
-    parser.add_argument("wav2vec_path", type=str)
     parser.add_argument("out_dir", type=str)
     parser.add_argument("--trim_method", choices=["librosa", "vad"], default="vad")
     parser.add_argument("--n_workers", type=int, default=cpu_count())
@@ -35,7 +34,6 @@ def parse_args():
 def main(
     data_dirs,
     feature_name,
-    wav2vec_path,
     out_dir,
     trim_method,
     n_workers,
@@ -67,9 +65,9 @@ def main(
     speaker_infos['feature_name'] = feature_name
 
     pbar = tqdm.tqdm(total=len(dataset), ncols=0)
-    mapping = {'apc': 'fbank', 'timit_posteriorgram': 'fbank', 'cpc': 'cpc_mel', 'wav2vec2': 'wav2vec2_mel'}
-    feat_extractor = FeatureExtractor(feature_name, wav2vec_path, device)
-    mel_extractor = FeatureExtractor(mapping[feature_name], wav2vec_path, device)
+    mapping = {'apc': 'fbank', 'timit_posteriorgram': 'fbank', 'cpc': 'cpc_mel'}
+    feat_extractor = FeatureExtractor(feature_name, device)
+    mel_extractor = FeatureExtractor(mapping[feature_name], device)
     for speaker_name, audio_path, wav in dataloader:
         if wav.size(-1) < 10:
             continue

@@ -2,18 +2,18 @@
 """Convert multiple pairs."""
 
 import warnings
-from pathlib import Path
+from argparse import ArgumentParser
 from functools import partial
 from multiprocessing import Pool, cpu_count
+from pathlib import Path
 
-import yaml
-import torch
 import numpy as np
 import soundfile as sf
-from argparse import ArgumentParser
+import torch
+import yaml
 from tqdm import tqdm
 
-from data import load_wav, log_mel_spectrogram, plot_mel, plot_attn
+from data import load_wav, log_mel_spectrogram, plot_attn, plot_mel
 from data.feature_extract import FeatureExtractor
 from models import load_pretrained_wav2vec
 
@@ -27,8 +27,6 @@ def parse_args():
                         default="checkpoints/cpc-cpc.pt")
     parser.add_argument("-s", "--src_feat_name", default="cpc")
     parser.add_argument("-r", "--ref_feat_name", default="cpc")
-    parser.add_argument("-w", "--wav2vec_path",
-                        default="checkpoints/wav2vec_small.pt")
     parser.add_argument("-v", "--vocoder_path",
                         default="checkpoints/vocoder.pt")
 
@@ -43,7 +41,6 @@ def main(
     ckpt_path,
     src_feat_name,
     ref_feat_name,
-    wav2vec_path,
     vocoder_path,
     sample_rate,
     **kwargs,
@@ -51,9 +48,9 @@ def main(
     """Main function."""
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    src_feat_model = FeatureExtractor(src_feat_name, wav2vec_path, device)
+    src_feat_model = FeatureExtractor(src_feat_name, device)
 
-    ref_feat_model = FeatureExtractor(ref_feat_name, wav2vec_path, device)
+    ref_feat_model = FeatureExtractor(ref_feat_name, device)
 
     print(f"[INFO] {src_feat_name} is loaded")
 

@@ -22,9 +22,7 @@ pip install -r requirements.txt
 If you encounter any problems while installing *fairseq*, please refer to [pytorch/fairseq](https://github.com/pytorch/fairseq) for the installation instruction.
 
 ### Self-Supervised representations
-#### Wav2vec2
-In our implementation, we're using Wav2Vec 2.0 Base w/o finetuning which is trained on LibriSpeech.
-You can download the checkpoint [wav2vec_small.pt](https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt) from [pytorch/fairseq](https://github.com/pytorch/fairseq).
+
 #### APC(Autoregressive Predictive Coding), CPC(Contrastive Predictive Coding)
 These two representations are extracted using this speech toolkit [S3PRL](https://github.com/s3prl/s3prl).
 You can check how to extract various representations from that repo.
@@ -53,7 +51,6 @@ pair2:
 And convert multiple pairs at the same time, e.g.
 ```bash
 python convert_batch.py \
-    -w <WAV2VEC_PATH> \
     -v <VOCODER_PATH> \
     -c <CHECKPOINT_PATH> \
     -s <SOURCE_FEATURE_NAME> \

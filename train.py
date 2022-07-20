@@ -6,13 +6,13 @@ import datetime
 import random
 from pathlib import Path
 
+import numpy as np
 import torch
 import torch.nn as nn
 from torch.optim import AdamW
 from torch.utils.data import DataLoader, random_split
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
-import numpy as np
 
 from data import IntraSpeakerDataset, collate_batch, plot_attn
 from models import S2VC, get_cosine_schedule_with_warmup
@@ -176,10 +176,6 @@ def main(
     pbar = tqdm(total=valid_steps, ncols=0, desc="Train", unit=" step")
 
     for step in range(total_steps):
-        if step == 40002:
-            file = open('completed.txt', 'a')
-            print(f'{comment} completed', file=file)
-            break
         batch_loss = 0.0
 
         for _ in range(accu_steps):

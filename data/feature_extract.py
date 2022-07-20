@@ -1,12 +1,13 @@
-import torch
 from functools import partial
 from multiprocessing import Pool, cpu_count
-from models import load_pretrained_wav2vec
+
+import torch
+
 from data import log_mel_spectrogram
 
 
 class FeatureExtractor:
-    def __init__(self, feature_name, wav2vec2_path=None, device=None):
+    def __init__(self, feature_name, device=None):
         self.device = device
         if (
             feature_name == "apc"
@@ -18,9 +19,7 @@ class FeatureExtractor:
                 torch.hub.load("s3prl/s3prl:f2114342ff9e813e18a580fa41418aee9925414e", feature_name, refresh=True).eval().to(device)
             )
             self.mode = 1
-        elif feature_name == "wav2vec2":
-            self.extractor = load_pretrained_wav2vec(wav2vec2_path).eval().to(device)
-            self.mode = 2
+
         elif feature_name == "wav2vec2_mel":
             self.extractor = partial(
                 log_mel_spectrogram,
@@ -50,7 +49,7 @@ class FeatureExtractor:
         else:
             print(feature_name)
             print(
-                "Please use timit_posteriorgram, apc, wav2vec2, cpc, wav2vec2_mel, cpc_mel, or fbank"
+                "Please use timit_posteriorgram, apc, cpc, wav2vec2_mel, cpc_mel, or fbank"
             )
             exit()
 
