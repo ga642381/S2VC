@@ -1,0 +1,11 @@
+# pairs_info.yaml
+pair1:
+  source: test_wavs/p225/p225_001.wav
+  target:
+    - test_wavs/p227/p227_001.wav
+pair2:
+  source: test_wavs/p225/p225_001.wav
+  target:
+    - test_wavs/p227/p227_002.wav
+    - test_wavs/p227/p227_003.wav
+    - test_wavs/p227/p227_004.wav

@@ -8,6 +8,9 @@ The following is the overall model architecture.
 
 For the audio samples, please refer to our [demo page](https://howard1337.github.io/S2VC/).
 
+## JSALT
+https://hackmd.io/@vf2clBV9RVOcCOu5LBPT2Q/SkN2g183q/edit
+
 ## Usage
 
 You can download the pretrained model as well as the vocoder following the link under **Releases** section on the sidebar.
